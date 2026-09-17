@@ -5,5 +5,8 @@
     "description": "A Random Mod For the sake of fun, and mod training",
     "prefix": "utm",
     "main_file": "main.lua",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "dependencies": [
+        "Steamodded (>=1.0.0~ALPHA-1225a)"
+    ]
 }
