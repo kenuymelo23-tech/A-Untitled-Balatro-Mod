@@ -16,7 +16,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'The Restless Gambler',
         text = {
-            "one in three chance to win big",
+            "one in two chance to win big",
             "and gain 10 mult"
         }
     },
@@ -39,9 +39,17 @@ SMODS.Joker {
     calculate = function(self, card, context)
         -- context
         if context.joker_main then
-            return {
-                mult = card.ability.extra.mult
+            message = "come on i can win this..."
+            if pseudorandom("Joker") <= 0.5 then
+                return {
+                    message = "YESSSS",
+                    mult = card.ability.extra.mult
             }
+            else
+                return {
+                    message = "Awww dang it :("
+                }
+            end
         end
     end
 }
