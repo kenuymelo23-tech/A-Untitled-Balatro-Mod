@@ -1,8 +1,8 @@
 --#region Atlases
 
 SMODS.Atlas {
-    key = 'restlessgambler',
-    path = 'restless_gambler.png',
+    key = 'jokers',
+    path = 'Jokers.png',
     px = 71,
     py = 95
 }
@@ -11,7 +11,7 @@ SMODS.Atlas {
 --jokers
 
 SMODS.Joker {
-    key = 'restlessjoker',
+    key = 'restlessgambler',
     -- descriptive stuff
     loc_txt = {
         name = 'The Restless Gambler',
@@ -34,7 +34,11 @@ SMODS.Joker {
     end,
     -- stuff
     rarity = 2,
-    atlas = 'restlessgambler',
+    atlas = 'jokers',
+    pos = {
+        x = 0,
+        y = 0
+    },
     -- calculation
     calculate = function(self, card, context)
         -- context
@@ -43,7 +47,7 @@ SMODS.Joker {
             if pseudorandom("Joker") <= 0.5 then
                 return {
                     message = "YESSSS",
-                    mult = card.ability.extra.mult
+                    xmult = card.ability.extra.mult
             }
             else
                 return {
