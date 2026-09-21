@@ -103,24 +103,24 @@ SMODS.Joker {
         end
     end
 }
-SMODS.joker {
+SMODS.Joker {
         key = 'pencil',
     -- descriptive stuff
     loc_txt = {
         name = 'Pencil',
         text = {
-            "its a pencil, does nothing"
+            "its a pencil, draws {X:mult, C:white}X#1#{} Mult"
         }
     },
     config = {
         extra = {
-            nothing
+            mult = 2
         }
     },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {
-                card.ability.extra.nothing
+                card.ability.extra.mult
             }
         }
     end,
@@ -133,7 +133,11 @@ SMODS.joker {
     },
     -- calculation
     calculate = function(self, card, context)
-        
+        if context.joker_main then
+            return {
+                xmult = card.ability.extra.mult
+            }
+        end
     end
 }
 SMODS.Joker {
@@ -166,11 +170,52 @@ SMODS.Joker {
     },
     -- calculation
     calculate = function(self, card, context)
-        for _, joker in ipairs(G.jokers.card) do
-            if joker ~= card and joker.config.center.key == "utm_pencil" then
-                card:set_ability(G.P_CENTERS.utm_pencil)
-            end
+        if next(SMODS.find_card('j_utm_pencil', 1)) then
+            card:set_ability("j_utm_superjoker")
         end
+    end 
+
+}
+SMODS.Joker {
+    key = 'superjoker',
+    -- descriptive stuff
+    loc_txt = {
+        name = 'Super Joker',
+        text = {
+            "Damages blind by 40%"
+        }
+    },
+    config = {
+        extra = {
+            damage = 0.6,
+            damaged = false
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extra.damage
+            }
+        }
+    end,
+    -- stuff
+    rarity = 3,
+    atlas = 'jokers',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    -- calculation
+    calculate = function(self, card, context)
+        if G.GAME.blind and G.GAME.blind.in_blind then
+            if card.ability.extra.damaged == false then
+                G.GAME.blind.chips = G.GAME.blind.chips * card.ability.extra.damage
+                card.ability.extra.damaged = true
+            end
+        else
+            card.ability.extra.damaged = false
+        end
+
     end 
 
 }
